@@ -34,13 +34,17 @@ async function main() {
   const initBalance = await vault.retrieve();
   console.log(`Initial vault balance: ${ethers.utils.formatEther(initBalance)}`);
 
-  const args = [ethers.utils.parseEther(AMOUNT)]
-  const functionToCall = FUNC
-  const encodedFunctionCall = vault.interface.encodeFunctionData(functionToCall, args)
-  const descriptionHash = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(PROPOSAL_DESCRIPTION))
+  const encodedFunctionCall = vault.interface.encodeFunctionData(FUNC, [AMOUNT]);
+  const descriptionHash = ethers.utils.id(PROPOSAL_DESCRIPTION);
 
   console.log("Queueing...")
-  const queueTx = await governor.queue([vault.address], [0], [encodedFunctionCall], descriptionHash)
+  const queueTx = await governor.queue(
+    [vault.address],
+    [0],
+    [encodedFunctionCall],
+    descriptionHash,
+  );
+  
   await queueTx.wait()
 
 

@@ -23,7 +23,7 @@ async function main() {
     throw new Error("Not enough ether");
   }
 
-  const amount = "0.001"
+  const amount = "0.05"
   console.log("Deposit to vault");
 
   const weth = new ethers.Contract("0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6", WETHJson.abi, signer)

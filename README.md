@@ -14,6 +14,6 @@ You made a HowDAO!
 
 # Interaction with DAO:
 
-1. **Deposit** - Anyone can deposit WETH to the Vault.
-2. **Withdraw** - First you need to create a proposal where the members of the DAO need to voute if they want to allow your withdrawal. This proposal need to include the amount of WETH that you would like to withdraw from the Vault
+1. **Deposit** - Anyone can deposit WETH to the Vault. (In order to deposit WETH you need to approve the vault address in  the WETH contract)
+2. **Withdraw** - First you need to create a proposal where the members of the DAO need to vote if they want to allow your withdrawal. This proposal need to include the amount of WETH that you would like to withdraw from the Vault. (In order to vote make sure that you delegate your voting power to yourself in the DAO token contract). If the proposal is successful you can queue and execute the proposal.
 3. **Retrieve** - You can check the balance of the Vault.
