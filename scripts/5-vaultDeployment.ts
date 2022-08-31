@@ -1,8 +1,8 @@
 import { BytesLike, ethers } from "ethers";
 import "dotenv/config";
-import * as TimeLockJson from "../artifacts/contracts/TimeLock.sol/TimeLock.json";
+import * as VaultJson from "../artifacts/contracts/Vault.sol/Vault.json";
 import { setupProvider } from "./utils";
-import { MIN_DELAY } from "./constants";
+
 
 async function main() {
   const wallet =
@@ -20,19 +20,19 @@ async function main() {
   if (balance < 0.01) {
     throw new Error("Not enough ether");
   }
-  console.log("Deploying TimeLock contract");
+  console.log("Deploying Vault contract");
 
-  const TimeLockFactory = new ethers.ContractFactory(
-    TimeLockJson.abi,
-    TimeLockJson.bytecode,
+  const VaultFactory = new ethers.ContractFactory(
+    VaultJson.abi,
+    VaultJson.bytecode,
     signer
   );
-  const TimeLockContract = await TimeLockFactory.deploy(MIN_DELAY, [], []);
+  const VaultContract = await VaultFactory.deploy(ethers.utils.getAddress("0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6"));
   console.log("Awaiting confirmations");
 
-  await TimeLockContract.deployed();
+  await VaultContract.deployed();
   console.log("Completed");
-  console.log(`Contract deployed at ${TimeLockContract.address}`);
+  console.log(`Contract deployed at ${VaultContract.address}`);
 }
 
 main().catch((error) => {
@@ -40,4 +40,4 @@ main().catch((error) => {
   process.exitCode = 1;
 });
 
-// 0x20D541eF4F41708ae6C1549C411997a390E6f116
+// 0xb8552591a5A2B07dFcd75D7C0A1226B35955C1B4

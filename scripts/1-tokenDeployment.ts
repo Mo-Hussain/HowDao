@@ -1,6 +1,6 @@
 import { BytesLike, ethers } from "ethers";
 import "dotenv/config";
-import * as HowDaoTokenJson from "../artifacts/contracts/HowDaoToken.sol/HowDaoToken.json";
+import * as HowDaoTokenJson from "../artifacts/contracts/HOWDAOToken.sol/HowDAOToken.json";
 import { setupProvider } from "./utils";
 
 
@@ -40,4 +40,4 @@ main().catch((error) => {
   process.exitCode = 1;
 });
 
-// 0xF690df73388C2a2099D3736Ab61A434aeAaa9ec
+// 0x81d1613D4EB2ad0B16B6025D87fc5C64A2e1a8C1

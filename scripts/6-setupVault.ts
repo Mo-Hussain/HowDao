@@ -1,8 +1,8 @@
 import { BytesLike, ethers } from "ethers";
 import "dotenv/config";
-import * as TimeLockJson from "../artifacts/contracts/TimeLock.sol/TimeLock.json";
+import * as VaultJson from "../artifacts/contracts/Vault.sol/Vault.json"
 import { setupProvider } from "./utils";
-import { MIN_DELAY } from "./constants";
+
 
 async function main() {
   const wallet =
@@ -20,24 +20,16 @@ async function main() {
   if (balance < 0.01) {
     throw new Error("Not enough ether");
   }
-  console.log("Deploying TimeLock contract");
+  console.log("Setup vault");
 
-  const TimeLockFactory = new ethers.ContractFactory(
-    TimeLockJson.abi,
-    TimeLockJson.bytecode,
-    signer
-  );
-  const TimeLockContract = await TimeLockFactory.deploy(MIN_DELAY, [], []);
-  console.log("Awaiting confirmations");
+  const vault = new ethers.Contract("0xb8552591a5A2B07dFcd75D7C0A1226B35955C1B4", VaultJson.abi, signer)
 
-  await TimeLockContract.deployed();
-  console.log("Completed");
-  console.log(`Contract deployed at ${TimeLockContract.address}`);
+  const tx = await vault.transferOwnership(ethers.utils.getAddress("0x20D541eF4F41708ae6C1549C411997a390E6f116"));
+  await tx.wait();
+  console.log(`Transfer ownership transaction completed. Hash: ${tx.hash}`);
 }
 
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
-
-// 0x20D541eF4F41708ae6C1549C411997a390E6f116

@@ -6,9 +6,9 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@openzeppelin/contracts": "^4.5.0",
+    "@openzeppelin/contracts": "^4.7.3",
     "chai": "^4.3.6",
-    "hardhat": "^2.9.3",
+    "hardhat": "^2.10.2",
     "hardhat-deploy": "^0.11.12"
   },
   "devDependencies": {

@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "@openzeppelin/contracts@4.7.3/governance/Governor.sol";
-import "@openzeppelin/contracts@4.7.3/governance/extensions/GovernorSettings.sol";
-import "@openzeppelin/contracts@4.7.3/governance/extensions/GovernorCountingSimple.sol";
-import "@openzeppelin/contracts@4.7.3/governance/extensions/GovernorVotes.sol";
-import "@openzeppelin/contracts@4.7.3/governance/extensions/GovernorVotesQuorumFraction.sol";
-import "@openzeppelin/contracts@4.7.3/governance/extensions/GovernorTimelockControl.sol";
+import "@openzeppelin/contracts/governance/Governor.sol";
+import "@openzeppelin/contracts/governance/extensions/GovernorSettings.sol";
+import "@openzeppelin/contracts/governance/extensions/GovernorCountingSimple.sol";
+import "@openzeppelin/contracts/governance/extensions/GovernorVotes.sol";
+import "@openzeppelin/contracts/governance/extensions/GovernorVotesQuorumFraction.sol";
+import "@openzeppelin/contracts/governance/extensions/GovernorTimelockControl.sol";
 
 contract HowDAO is Governor, GovernorSettings, GovernorCountingSimple, GovernorVotes, GovernorVotesQuorumFraction, GovernorTimelockControl {
     constructor(IVotes _token, TimelockController _timelock)
         Governor("HowDAO")
-        GovernorSettings(1 /* 1 block */, 45818 /* 1 week */, 0)
+        GovernorSettings(1 /* 1 block */, 68 /* 1 week */, 0)
         GovernorVotes(_token)
         GovernorVotesQuorumFraction(4)
         GovernorTimelockControl(_timelock)

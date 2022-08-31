@@ -1,8 +1,8 @@
 import { BytesLike, ethers } from "ethers";
 import "dotenv/config";
-import * as HowDaoGovernorJson from "../artifacts/contracts/HowDaoGovernor.sol/HowDaoGovernor.json";
+import * as HowDaoGovernorJson from "../artifacts/contracts/HOWDAOGovern.sol/HowDAO.json";
 import { setupProvider } from "./utils";
-import { QUORUM_PERCENTAGE, VOTING_DELAY, VOTING_PERIOD } from "./constants";
+
 
 async function main() {
   const wallet =
@@ -29,11 +29,8 @@ async function main() {
   );
 
   const HowDaoContract = await HowDaoFactory.deploy(
-    ethers.utils.getAddress("0xA7B06fB5478eC61a7e8dadf1AAdD1162ce1657c0"),
-    ethers.utils.getAddress("0x547fAd03C8f8F9E0a1b57B4761F977DAd09E0817"),
-    QUORUM_PERCENTAGE,
-    VOTING_PERIOD,
-    VOTING_DELAY
+    ethers.utils.getAddress("0x81d1613D4EB2ad0B16B6025D87fc5C64A2e1a8C1"),
+    ethers.utils.getAddress("0x20D541eF4F41708ae6C1549C411997a390E6f116")
   );
   console.log("Awaiting confirmations");
 
@@ -46,3 +43,5 @@ main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
+
+// 0x596F0609909E112479591AC54bcEeD0B93F35F73
