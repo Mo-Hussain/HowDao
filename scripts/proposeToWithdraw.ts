@@ -28,7 +28,7 @@ async function main() {
 
   const governor = new ethers.Contract("0x596F0609909E112479591AC54bcEeD0B93F35F73", HowDAOJson.abi, signer)
   const vault = new ethers.Contract("0xb8552591a5A2B07dFcd75D7C0A1226B35955C1B4", VaultJson.abi, signer)
-  const encodedFunctionCall = vault.interface.encodeFunctionData(FUNC, [ethers.utils.parseEther(AMOUNT)]);
+  const encodedFunctionCall = vault.interface.encodeFunctionData(FUNC, [AMOUNT]);
   console.log(`Proposing ${FUNC} on ${vault.address} with ${AMOUNT}`)
   console.log(`Proposal Description:\n  ${PROPOSAL_DESCRIPTION}`)
   const proposeTx = await governor.propose(
