@@ -3,7 +3,7 @@ import "dotenv/config";
 import * as HowDAOJson from "../artifacts/contracts/HOWDAOGovern.sol/HowDAO.json";
 import * as VaultJson from "../artifacts/contracts/Vault.sol/Vault.json";
 import { setupProvider } from "./utils";
-import { AMOUNT, FUNC, PROPOSAL_DESCRIPTION } from "./constants";
+import { AMOUNT, FUNC, PROPOSAL_DESCRIPTION, TO } from "./constants";
 
 
 async function main() {
@@ -29,12 +29,11 @@ async function main() {
   
 
   const governor = new ethers.Contract("0x596F0609909E112479591AC54bcEeD0B93F35F73", HowDAOJson.abi, signer)
-  const vault = new ethers.Contract("0xb8552591a5A2B07dFcd75D7C0A1226B35955C1B4", VaultJson.abi, signer)
+  // const vault = new ethers.Contract("0xb8552591a5A2B07dFcd75D7C0A1226B35955C1B4", VaultJson.abi, signer)
+  const vault = new ethers.Contract("0x92968b7Fdef540928E01C1dfA0510D1deabE95d1", VaultJson.abi, signer)
 
-  const initBalance = await vault.retrieve();
-  console.log(`Initial vault balance: ${ethers.utils.formatEther(initBalance)}`);
 
-  const encodedFunctionCall = vault.interface.encodeFunctionData(FUNC, [AMOUNT]);
+  const encodedFunctionCall = vault.interface.encodeFunctionData(FUNC, [TO, AMOUNT]);
   const descriptionHash = ethers.utils.id(PROPOSAL_DESCRIPTION);
 
   console.log("Queueing...")
@@ -47,19 +46,6 @@ async function main() {
   
   await queueTx.wait()
 
-
-  console.log("Executing...")
-  // this will fail on a testnet because you need to wait for the MIN_DELAY!
-  const executeTx = await governor.execute(
-    [vault.address],
-    [0],
-    [encodedFunctionCall],
-    descriptionHash
-  )
-  await executeTx.wait()
-  
-  const afterBalance = await vault.retrieve();
-  console.log(`After execution vault balance: ${ethers.utils.formatEther(afterBalance)}`);
 }
 
 main().catch((error) => {

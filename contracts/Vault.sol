@@ -23,9 +23,9 @@ contract Vault is Ownable {
 
     event tokenWithdrawalComplete(address tokenAddress, uint256 amount);
 
-    function withDrawAmount(uint256 amount) public onlyOwner{
+    function withDrawAmount(address to, uint256 amount) public onlyOwner{
         require(IERC20(tokenAddress).balanceOf(address(this)) >= amount, "The vault does not have enough token to withdraw");
-        require(IERC20(tokenAddress).transfer(msg.sender, amount), "the transfer failed");
+        require(IERC20(tokenAddress).transfer(to, amount), "the transfer failed");
         emit tokenWithdrawalComplete(tokenAddress, amount);
     }
 

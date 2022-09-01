@@ -24,36 +24,32 @@ async function main() {
     throw new Error("Not enough ether");
   }
 
-  console.log("Propose withdrawal of the vault");
+  console.log("Queue and execute a proposal");
+
+  
 
   const governor = new ethers.Contract("0x596F0609909E112479591AC54bcEeD0B93F35F73", HowDAOJson.abi, signer)
   // const vault = new ethers.Contract("0xb8552591a5A2B07dFcd75D7C0A1226B35955C1B4", VaultJson.abi, signer)
   const vault = new ethers.Contract("0x92968b7Fdef540928E01C1dfA0510D1deabE95d1", VaultJson.abi, signer)
-  
+
+  const initBalance = await vault.retrieve();
+  console.log(`Initial vault balance: ${ethers.utils.formatEther(initBalance)}`);
+
   const encodedFunctionCall = vault.interface.encodeFunctionData(FUNC, [TO, AMOUNT]);
-  console.log(`Proposing ${FUNC} on ${vault.address} with address ${TO} and ${AMOUNT}`)
-  console.log(`Proposal Description:\n  ${PROPOSAL_DESCRIPTION}`)
-  const proposeTx = await governor.propose(
+  const descriptionHash = ethers.utils.id(PROPOSAL_DESCRIPTION);
+
+  console.log("Executing...")
+  // this will fail on a testnet because you need to wait for the MIN_DELAY!
+  const executeTx = await governor.execute(
     [vault.address],
     [0],
     [encodedFunctionCall],
-    PROPOSAL_DESCRIPTION
+    descriptionHash
   )
-
-  const proposeReceipt = await proposeTx.wait()
-  const proposalId = proposeReceipt.events[0].args.proposalId
-  console.log(`Proposed with proposal ID:\n  ${proposalId}`)
-
-  const proposalState = await governor.state(proposalId)
-  const proposalSnapShot = await governor.proposalSnapshot(proposalId)
-  const proposalDeadline = await governor.proposalDeadline(proposalId)
-
-  // The state of the proposal. 1 is not passed. 0 is passed.
-  console.log(`Current Proposal State: ${proposalState}`)
-  // What block # the proposal was snapshot
-  console.log(`Current Proposal Snapshot: ${proposalSnapShot}`)
-  // The block number the proposal voting expires
-  console.log(`Current Proposal Deadline: ${proposalDeadline}`)
+  await executeTx.wait()
+  
+  const afterBalance = await vault.retrieve();
+  console.log(`After execution vault balance: ${ethers.utils.formatEther(afterBalance)}`);
 }
 
 main().catch((error) => {
