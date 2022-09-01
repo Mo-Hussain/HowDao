@@ -22,7 +22,7 @@ async function main() {
   }
   console.log("Setup vault");
 
-  const vault = new ethers.Contract("0xb8552591a5A2B07dFcd75D7C0A1226B35955C1B4", VaultJson.abi, signer)
+  const vault = new ethers.Contract("0x92968b7Fdef540928E01C1dfA0510D1deabE95d1", VaultJson.abi, signer)
 
   const tx = await vault.transferOwnership(ethers.utils.getAddress("0x20D541eF4F41708ae6C1549C411997a390E6f116"));
   await tx.wait();

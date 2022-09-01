@@ -27,7 +27,6 @@ async function main() {
   console.log("Propose withdrawal of the vault");
 
   const governor = new ethers.Contract("0x596F0609909E112479591AC54bcEeD0B93F35F73", HowDAOJson.abi, signer)
-  // const vault = new ethers.Contract("0xb8552591a5A2B07dFcd75D7C0A1226B35955C1B4", VaultJson.abi, signer)
   const vault = new ethers.Contract("0x92968b7Fdef540928E01C1dfA0510D1deabE95d1", VaultJson.abi, signer)
   
   const encodedFunctionCall = vault.interface.encodeFunctionData(FUNC, [TO, AMOUNT]);
